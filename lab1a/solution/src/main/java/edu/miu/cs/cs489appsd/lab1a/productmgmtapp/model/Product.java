@@ -3,7 +3,7 @@ package edu.miu.cs.cs489appsd.lab1a.productmgmtapp.model;
 import java.math.BigDecimal;
 
 public class Product {
-    private Long productId;
+    private String productId;
     private String name;
     private String dateSupplied;
     private Integer quantityInStock;
@@ -11,7 +11,12 @@ public class Product {
 
     public Product(){}
 
-    public Product(Long productId, String name, String dateSupplied, Integer quantityInStock, BigDecimal price) {
+    public Product(String productId, String name) {
+        this.productId = productId;
+        this.name = name;
+    }
+
+    public Product(String productId, String name, String dateSupplied, Integer quantityInStock, BigDecimal price) {
         this.productId = productId;
         this.name = name;
         this.dateSupplied = dateSupplied;
@@ -19,17 +24,11 @@ public class Product {
         this.price = price;
     }
 
-    public Product(Long productId, String name, String dateSupplied) {
-        this.productId = productId;
-        this.name = name;
-        this.dateSupplied = dateSupplied;
-    }
-
-    public Long getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
