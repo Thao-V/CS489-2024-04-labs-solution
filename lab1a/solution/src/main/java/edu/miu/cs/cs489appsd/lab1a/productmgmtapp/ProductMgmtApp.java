@@ -3,7 +3,10 @@ package edu.miu.cs.cs489appsd.lab1a.productmgmtapp;
 import edu.miu.cs.cs489appsd.lab1a.productmgmtapp.model.Product;
 
 import javax.sound.midi.SysexMessage;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class ProductMgmtApp {
     public static void main(String [] args){
@@ -12,6 +15,7 @@ public class ProductMgmtApp {
                 new Product("2", "Apple", "2024-04-02", 100, new BigDecimal(2.00)),
                 new Product("3", "Orange", "2024-04-02", 100, new BigDecimal(2.00)),
         };
+        Arrays.sort(products, Comparator.comparing(Product::getName));
         printProducts(products);
     }
     private static void printProducts(Product[] products){
