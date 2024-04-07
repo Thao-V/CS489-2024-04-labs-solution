@@ -1,3 +1,6 @@
+# Remove backed up files from VPP
+.DS_Store
+*.vpp.back*
 # Compiled class file
 *.class
 
