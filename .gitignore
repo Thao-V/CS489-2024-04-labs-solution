@@ -1,5 +1,6 @@
 # Remove backed up files from VPP
 .DS_Store
+*.lck
 *.vpp.bak*
 ### VS Code ###
 .vscode/
