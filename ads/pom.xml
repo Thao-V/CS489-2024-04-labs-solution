@@ -10,7 +10,7 @@
     </parent>
     <groupId>cs489.lab</groupId>
     <artifactId>ads</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>ads</name>
     <description>ads</description>
     <properties>

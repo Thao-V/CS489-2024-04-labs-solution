@@ -1,13 +1,7 @@
 package cs489.lab.ads;
 
-import cs489.lab.ads.model.Address;
-import cs489.lab.ads.model.Appointment;
-import cs489.lab.ads.model.Dentist;
-import cs489.lab.ads.model.Patient;
-import cs489.lab.ads.service.AddressService;
-import cs489.lab.ads.service.UserService;
-import cs489.lab.ads.service.impl.AppointmentServiceImpl;
-import org.aspectj.weaver.patterns.AndPointcut;
+import cs489.lab.ads.model.*;
+import cs489.lab.ads.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +18,11 @@ public class AdsApplication implements CommandLineRunner {
     @Autowired
     private UserService userService;
     @Autowired
-    private AppointmentServiceImpl appointmentService;
+    private AppointmentService appointmentService;
+    @Autowired
+    private LocationService locationService;
+    @Autowired
+    private BillService billService;
 
     public static void main(String[] args) {
         SpringApplication.run(AdsApplication.class, args);
@@ -32,22 +30,34 @@ public class AdsApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-       //createAddress();
-        // getAllAddresses();
-        createUser();
+        createAppointment();
     }
 
-    private void createUser(){
+    private void createAppointment(){
+        var patientAddr = new Address(null, "1000 N 4th ST", "Fairfield", "IA", "52556");
+        var savedPatientAddress = addressService.createNewAddress(patientAddr);
+
+        var dentistAddress = new Address(null, "200 Main ST", "Fairfield", "IA", "52556");
+        var savedDentistAddress = addressService.createNewAddress(dentistAddress);
+
+        var clinicAddress = new Address(null, "200 2nd ST", "Fairfield", "IA", "52556");
+        var savedClinicAddress = addressService.createNewAddress(clinicAddress);
+
+        var location = new Location(null, "123-456-0001", "Fairfield Dental Clinics", savedClinicAddress, null);
+        var savedLocation = locationService.createLocation(location);
+
         var patient = new Patient();
         patient.setFirstName("Thao");
         patient.setLastName("Vu");
         patient.setDob("10/10/1990");
+        patient.setAddress(savedPatientAddress);
         var savedPatient = (Patient)userService.createUser(patient);
 
         var dentist = new Dentist();
         dentist.setFirstName("John");
         dentist.setLastName("Vu");
-        dentist.setSpecialization("Orthodentist");
+        dentist.setSpecialization("Orthodontist");
+        dentist.setAddress(savedDentistAddress);
         var savedDentist = (Dentist) userService.createUser(dentist);
 
         var appointment = new Appointment();
@@ -55,9 +65,13 @@ public class AdsApplication implements CommandLineRunner {
         appointment.setTime(LocalTime.of(10, 30));
         appointment.setDentist(savedDentist);
         appointment.setPatient(savedPatient);
+        appointment.setLocation(savedLocation);
+        var savedAppointment = appointmentService.createAppointment(appointment);
 
-        appointmentService.createAppointment(appointment);
-
+        var bill = new Bill();
+        bill.setAmount(100.00);
+        bill.addAppointment(savedAppointment);
+        billService.createBill(bill);
     }
 
     private void createAddress(){

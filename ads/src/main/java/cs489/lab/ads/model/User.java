@@ -22,5 +22,7 @@ public class User {
     private String password;
     private String phoneNumber;
 
-
+    @OneToOne
+    @JoinColumn(name = "address_id", referencedColumnName = "addressId")
+    private Address address;
 }
