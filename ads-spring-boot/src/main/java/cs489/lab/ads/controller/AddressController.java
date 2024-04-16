@@ -3,6 +3,7 @@ package cs489.lab.ads.controller;
 import cs489.lab.ads.dto.AddressRequest;
 import cs489.lab.ads.dto.AddressResponse;
 import cs489.lab.ads.service.AddressService;
+import cs489.lab.ads.util.Constants;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/addresses")
+@RequestMapping(Constants.API_VERSION + "/addresses")
 public class AddressController {
     @Autowired
     private AddressService addressService;

@@ -1,5 +1,6 @@
 package cs489.lab.ads.advice;
 
+import cs489.lab.ads.exception.DuplicateUserException;
 import cs489.lab.ads.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,6 +16,13 @@ public class ErrorHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleNotFoundException(NotFoundException exception){
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("ErrorMessage", exception.getMessage());
+        return errorMap;
+    }
+    @ExceptionHandler(DuplicateUserException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Map<String, String> handleNotFoundException(DuplicateUserException exception){
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("ErrorMessage", exception.getMessage());
         return errorMap;
