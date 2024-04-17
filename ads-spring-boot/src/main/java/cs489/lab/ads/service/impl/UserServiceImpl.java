@@ -9,12 +9,18 @@ import cs489.lab.ads.model.Patient;
 import cs489.lab.ads.repository.UserRepository;
 import cs489.lab.ads.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public UserResponse createDentist(UserRequest userRequest) throws DuplicateUserException {
@@ -26,7 +32,7 @@ public class UserServiceImpl implements UserService {
         Dentist user = new Dentist();
 
         user.setEmail(userRequest.email());
-        user.setPassword(userRequest.password());
+        user.setPassword(bCryptPasswordEncoder.encode(userRequest.password()));
         user.setFirstName(userRequest.firstName());
         user.setLastName(userRequest.lastName());
         user.setPhoneNumber(userRequest.phoneNumber());
@@ -50,7 +56,7 @@ public class UserServiceImpl implements UserService {
         Patient user = new Patient();
 
         user.setEmail(userRequest.email());
-        user.setPassword(userRequest.password());
+        user.setPassword(bCryptPasswordEncoder.encode(userRequest.password()));
         user.setFirstName(userRequest.firstName());
         user.setLastName(userRequest.lastName());
         user.setPhoneNumber(userRequest.phoneNumber());
@@ -72,7 +78,7 @@ public class UserServiceImpl implements UserService {
         }
         Manager user = new Manager();
         user.setEmail(userRequest.email());
-        user.setPassword(userRequest.password());
+        user.setPassword(bCryptPasswordEncoder.encode(userRequest.password()));
         user.setFirstName(userRequest.firstName());
         user.setLastName(userRequest.lastName());
         user.setPhoneNumber(userRequest.phoneNumber());
@@ -84,5 +90,15 @@ public class UserServiceImpl implements UserService {
                 savedUser.getLastName(),
                 savedUser.getEmail()
         );
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        var user = userRepository.findUserByEmail(email);
+        if(user == null){
+            throw new UsernameNotFoundException("User not found with email: "+ email);
+        }
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 }

@@ -1,16 +1,25 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { URL } from "../constants";
+import GlobalContext from "../GlobalContext";
 
 export default function AddNewAddress(){
   const [data, setData] = useState({address: "", city: "", state: "", zip: ""});
   const navigate = useNavigate();
+  const {state} = useContext(GlobalContext);
+  
   const onChange = (e) => {
     setData({...data, [e.target.name]: e.target.value})
   }
   const submitAddress = async () => {
     try {
-      const res = await axios.post("http://localhost:6001/api/v1/addresses", data);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${state.token}`
+        }
+      };
+      const res = await axios.post(URL + "/addresses", data, config);
       if(res.status === 200){
         navigate("/");
       }

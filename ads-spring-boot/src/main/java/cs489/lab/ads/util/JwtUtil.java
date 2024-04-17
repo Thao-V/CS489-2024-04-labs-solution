@@ -39,7 +39,7 @@ public class JwtUtil {
         SecretKey key = createSecretKey(secretString);
         return Jwts.builder()
                 .claim("email", auth.getName())
-                .claim("role", "dev")
+                .claim("type", "dentist")
                 .issuedAt(issuedAt)
                 .expiration(expiration)
                 .signWith(key)
