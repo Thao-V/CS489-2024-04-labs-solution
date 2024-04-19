@@ -26,5 +26,6 @@ class JwtUtilTest {
         String token = jwtUtil.generateToken(auth);
         String emailFromToken = jwtUtil.extractUsername(token);
         assertEquals(email, emailFromToken);
+        assertEquals(1, 0);
     }
 }
