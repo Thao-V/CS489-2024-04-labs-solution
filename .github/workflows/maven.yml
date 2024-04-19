@@ -12,11 +12,11 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - 'backend-app/**'
+      - 'ads/ads-spring-boot/**'
   pull_request:
     branches: [ "main" ]
     paths:
-      - 'backend-app/**'
+      - 'ads/ads-spring-boot/**'
 
 jobs:
   build:
