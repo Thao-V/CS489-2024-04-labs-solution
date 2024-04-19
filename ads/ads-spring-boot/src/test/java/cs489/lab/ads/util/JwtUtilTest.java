@@ -20,15 +20,22 @@ class JwtUtilTest {
     }
 
     @Test
-    void generateValidateToken() {
+    void generateToken() {
         //for test123
         String email = "test@example.com";
         Authentication auth = new UsernamePasswordAuthenticationToken(email, "123", new ArrayList<>());
         String token = jwtUtil.generateToken(auth);
         String emailFromToken = jwtUtil.extractUsername(token);
         assertEquals(email, emailFromToken);
+    }
+    @Test
+    void validateToken(){
+        String email = "test@example.com";
+        Authentication auth = new UsernamePasswordAuthenticationToken(email, "123", new ArrayList<>());
+        String token = jwtUtil.generateToken(auth);
         UserDetails user = new User(email, "123", new ArrayList<>());
         Boolean valid = jwtUtil.validateToken(token, user);
         assertEquals(true, valid);
     }
+
 }

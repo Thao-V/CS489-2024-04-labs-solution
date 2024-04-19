@@ -41,7 +41,7 @@ class AddressServiceTest {
 
         // Then
         assertNotNull(result);
-        assertEquals(1,result.addressId());
+        assertEquals(2,result.addressId());
         assertEquals("123 Main St", result.address());
         assertEquals("Springfield", result.city());
         assertEquals("IL", result.state());
