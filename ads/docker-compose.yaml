@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  backend:
+    build: ./ads-spring-boot
+    ports:
+      - "8080:6001"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mydb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=test123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - mysql
+    networks:
+      - my_network
+  frontend:
+    build: ./ads-frontend
+    ports:
+      - "3000:80"  
+    depends_on:
+      - backend
+    networks:
+      - my_network
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - my_network
+volumes:
+  mysql-data:
+networks:
+  my_network:
+    driver: bridge
