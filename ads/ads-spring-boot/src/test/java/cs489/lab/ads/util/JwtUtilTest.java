@@ -20,7 +20,7 @@ class JwtUtilTest {
 
     @Test
     void generateValidateToken() {
-        //for test
+        //for test123
         String email = "test@example.com";
         Authentication auth = new UsernamePasswordAuthenticationToken(email, "123", new ArrayList<>());
         String token = jwtUtil.generateToken(auth);
