@@ -30,7 +30,7 @@ jobs:
       with:
         java-version: '20'
         distribution: 'temurin'
-        cache: maven
+        cache: maven-ads-spring-boot
     - name: Build with Maven
       run: mvn -B package --file ads/ads-spring-boot/pom.xml
 
