@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -26,5 +27,8 @@ class JwtUtilTest {
         String token = jwtUtil.generateToken(auth);
         String emailFromToken = jwtUtil.extractUsername(token);
         assertEquals(email, emailFromToken);
+        UserDetails user = new User(email, "123", new ArrayList<>());
+        Boolean valid = jwtUtil.validateToken(token, user);
+        assertEquals(true, valid);
     }
 }
